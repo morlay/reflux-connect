@@ -18,12 +18,12 @@ see more <https://github.com/reflux/refluxjs#using-refluxconnect>
 #### Components
 
 ```js
-import React from 'react;
-import refluxConnect from 'reflux-connect'
+import React from 'react';
+import refluxConnect from 'reflux-connect';
 
-import storeA from '../stores/storeA'
-import storeB from '../stores/storeB'
-import commonActions from '../actions/commonActions'
+import storeA from '../stores/storeA';
+import storeB from '../stores/storeB';
+import commonActions from '../actions/commonActions';
 
 const componentConnect = refluxConnect({
   storeA: storeA,
@@ -69,7 +69,7 @@ Once we created the stateKeyMap, the Component will be subscribed to the related
 
 ##### Arguments:
 
-[mapStateToProps(state, [ownProps]): stateProps] (Function): 
+`[mapStateToProps(state, [ownProps]): stateProps] (Function)`: 
 If specified, the component will subscribe to reflux stores updates. 
 Any time it updates, mapStateToProps will be called. 
 Its result must be a plain object, and it will be merged into the component’s props. 
@@ -77,29 +77,29 @@ If ownProps is specified as a second argument, its value will be the properties 
 and mapStateToProps will be re-invoked whenever the component receives new props.
 If you omit it, will return the created state object.
 
-[mapActionsToProps(state, [ownProps]): actionProps] (Object or Function): 
+`[mapActionsToProps(state, [ownProps]): actionProps]` (Object or Function): 
 If an object is passed, each function inside it will be assumed to be an action creator. 
 An object with the same function names, will be merged into the component’s props. 
 If a function is passed, it will be given dispatch.
  It’s up to you to return an object that somehow uses dispatch to bind action creators in your own way. 
 If you omit it, will return empty object.
 
-[mergeProps(stateProps, actionProps, ownProps): props] (Function): 
-
+`[mergeProps(stateProps, actionProps, ownProps): props] (Function)`: 
 If specified, it is passed the result of mapStateToProps(), mapActionsToProps(), and the parent props. 
 The plain object you return from it will be passed as props to the wrapped component. 
 You may specify this function to select a slice of the state based on props, 
 or to bind action creators to a particular variable from props. 
 If you omit it, `Object.assign({}, ownProps, stateProps, actionProps)` is used by default.
 
-[options] (Object) If specified, further customizes the behavior of the connector.
+`[options] (Object)` If specified, further customizes the behavior of the connector.
 
-[pure = true] (Boolean): 
+`[pure = true] (Boolean)`: 
 If true, implements shouldComponentUpdate and shallowly compares the result of mergeProps, 
 preventing unnecessary updates, 
 assuming that the component is a “pure” component and does not rely on any input or state other than its props and the selected store’s state. 
 Defaults to true.
-[withRef = false] (Boolean): If true, stores a ref to the wrapped component instance and makes it available via getWrappedInstance() method. Defaults to false.
+
+`[withRef = false] (Boolean)`: If true, stores a ref to the wrapped component instance and makes it available via getWrappedInstance() method. Defaults to false.
 
 
 ##### Returns
