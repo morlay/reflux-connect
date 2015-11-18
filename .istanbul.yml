@@ -1,0 +1,7 @@
+verbose: false
+instrumentation:
+  extensions:
+    - ".js"
+  excludes:
+    - "src/__tests__/**"
+    - "src/**/__tests__/**"

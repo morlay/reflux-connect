@@ -1,0 +1,15 @@
+lib/
+
+node_modules/
+coverage/
+
+*.iml
+*.ipr
+*.iws
+*.ids
+*.log
+*.pyc
+.*.swp
+.idea
+.tern-project
+.DS_Store

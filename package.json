@@ -1,0 +1,58 @@
+{
+  "name": "reflux-connect",
+  "version": "0.1.0",
+  "description": "Higher order Components creator for Reflux",
+  "main": "lib/refluxConnect.js",
+  "engines": {
+    "node": ">4.0"
+  },
+  "keywords": [
+    "reflux",
+    "react",
+    "higher-order"
+  ],
+  "config": {
+    "MOCHA_OPTS": "--report dot --compilers js:babel-core/register src/__tests__/*.spec.js src/**/__tests__/*.spec.js"
+  },
+  "scripts": {
+    "coverage": "istanbul cover _mocha -- $npm_package_config_MOCHA_OPTS",
+    "ut": "mocha $npm_package_config_MOCHA_OPTS",
+    "build": "babel src/ --out-dir lib/",
+    "pre-publish": "babel src --out-dir lib",
+    "lint": "eslint src/",
+    "test": "npm run coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/morlay/reflux-connect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/morlay/reflux-connect/issues"
+  },
+  "license": "WTFPL",
+  "dependencies": {
+    "hoist-non-react-statics": "^1.0.3",
+    "invariant": "^2.2.0"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "reflux": "*"
+  },
+  "devDependencies": {
+    "babel": "^5.8.34",
+    "babel-core": "^5.8.34",
+    "babel-eslint": "^3.1.30",
+    "babel-runtime": "^5.8.34",
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.4",
+    "eslint": "^1.9.0",
+    "eslint-config-airbnb": "^1.0.0",
+    "eslint-plugin-react": "^3.9.0",
+    "istanbul": "^0.4.0",
+    "mocha": "^2.3.4",
+    "mocha-jsdom": "^1.0.0",
+    "sinon": "^1.17.2"
+  },
+  "homepage": "https://github.com/morlay/reflux-connect",
+  "author": ""
+}
