@@ -55,7 +55,7 @@ export default componentConnect(Component)
 
 #### `refluxConnect` Details
  
-`refluxConnect(stateKeyMap)([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])`
+`refluxConnect(stateKeyMap)([mapStateToProps], [mapActionsToProps], [mergeProps], [options])`
 
 same design as <https://github.com/rackt/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options>
 
