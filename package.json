@@ -58,6 +58,7 @@
     "eslint-config-airbnb": "6.2.x",
     "eslint-plugin-react": "4.2.x",
     "istanbul": "1.0.0-alpha.2",
+    "jsdom": "8.3.x",
     "mocha": "2.4.x",
     "mocha-jsdom": "1.1.x",
     "sinon": "1.17.x"
