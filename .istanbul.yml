@@ -1,7 +1,7 @@
 verbose: false
 instrumentation:
+  root: .
   extensions:
-    - ".js"
+    - .js
   excludes:
-    - "src/__tests__/**"
-    - "src/**/__tests__/**"
+    - "**/__tests__/**"
