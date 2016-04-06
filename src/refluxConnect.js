@@ -6,25 +6,17 @@ import refluxConnectMixins from './utils/refluxConnectMixins';
 import isPlainObject from './utils/isPlainObject';
 import shallowEqual from './utils/shallowEqual';
 
-const defaultMapStateToProps = (state) => {
-  return state || {};
-};
+const defaultMapStateToProps = (state) => state || {};
 
-const defaultMapActionsToProps = () => {
-  return {};
-};
+const defaultMapActionsToProps = () => ({});
 
 const defaultMergeProps = (stateProps, actionsProps, parentProps) => ({
   ...parentProps,
   ...stateProps,
-  ...actionsProps
+  ...actionsProps,
 });
 
-const wrapActionCreators = (actionsMap) => {
-  return () => {
-    return actionsMap;
-  };
-};
+const wrapActionCreators = (actionsMap) => () => actionsMap;
 
 export default function refluxConnect(stateMap = {}) {
   const connectMixins = refluxConnectMixins(stateMap);
@@ -114,12 +106,15 @@ export default function refluxConnect(stateMap = {}) {
           return false;
         },
 
-        computeNextState(props) {
-          return computeNextState(
-            this.stateProps,
-            this.actionsProps,
-            props
+        getWrappedInstance() {
+          invariant(withRef,
+            `
+            To access the wrapped instance, you need to specify
+            { withRef: true } as the fourth argument of the connect() call.
+            `
           );
+
+          return this.refs.wrappedInstance;
         },
 
         updateStateProps(state, props) {
@@ -144,21 +139,20 @@ export default function refluxConnect(stateMap = {}) {
           this.nextState = this.computeNextState(props);
         },
 
-        getWrappedInstance() {
-          invariant(withRef,
-            `To access the wrapped instance, you need to specify ` +
-            `{ withRef: true } as the fourth argument of the connect() call.`
+        computeNextState(props) {
+          return computeNextState(
+            this.stateProps,
+            this.actionsProps,
+            props
           );
-
-          return this.refs.wrappedInstance;
         },
 
         render() {
           const ref = withRef ? 'wrappedInstance' : null;
           return (
-            <WrappedComponent {...this.nextState} ref={ref}/>
+            <WrappedComponent {...this.nextState} ref={ref} />
           );
-        }
+        },
       });
 
       Connect.WrappedComponent = WrappedComponent;

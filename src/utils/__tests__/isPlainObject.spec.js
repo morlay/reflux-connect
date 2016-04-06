@@ -12,6 +12,7 @@ describe('isPlainObject', () => {
     expect(isPlainObject([1, 2, 3])).to.be.eql(false);
     expect(isPlainObject(null)).to.be.eql(false);
     expect(isPlainObject()).to.be.eql(false);
-    expect(isPlainObject({'x': 1, 'y': 2})).to.be.eql(true);
+    expect(isPlainObject({ x: 1, y: 2 })).to.be.eql(true);
   });
 });
+

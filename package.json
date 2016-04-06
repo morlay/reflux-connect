@@ -20,7 +20,7 @@
     "build": "babel src/ --ignore __*__ --out-dir lib/",
     "pre-publish": "rm -rf lib/ && npm run build",
     "lint": "eslint src/",
-    "test": "npm run coverage"
+    "test": "npm run lint && npm run coverage"
   },
   "repository": {
     "type": "git",

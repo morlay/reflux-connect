@@ -26,10 +26,10 @@ describe('refluxConnect', () => {
 
       expect(ConnectedComponent.staticKey).to.eql(MockedComponent.staticKey);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey />);
 
       expect(ReactTestUtils.findRenderedComponentWithType(connectedComponent, MockedComponent).props).to.eql({
-        someKey: true
+        someKey: true,
       });
     });
   });
@@ -37,13 +37,13 @@ describe('refluxConnect', () => {
   context('empty state map', () => {
     it('should connect and render without error', () => {
       const ConnectedComponent = refluxConnect()(null, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        someKey: true
+        someKey: true,
       });
     });
   });
@@ -51,13 +51,13 @@ describe('refluxConnect', () => {
   context('connect with mapStateToProps', () => {
     let commonStore;
 
-    beforeEach(()=> {
+    beforeEach(() => {
       commonStore = Reflux.createStore({
         getInitialState() {
           return {
-            storeKey: 'defaultKey'
+            storeKey: 'defaultKey',
           };
-        }
+        },
       });
     });
 
@@ -65,162 +65,154 @@ describe('refluxConnect', () => {
       const localStore = Reflux.createStore({
         getInitialState() {
           return {
-            localStoreKey: 'defaultKey'
+            localStoreKey: 'defaultKey',
           };
-        }
+        },
       });
 
       const ConnectedComponent = refluxConnect({
         fromStore: commonStore,
-        localStore: localStore
+        localStore,
       })(null, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
         fromStore: {
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         },
         localStore: {
-          localStoreKey: 'defaultKey'
-        }
+          localStoreKey: 'defaultKey',
+        },
       });
     });
 
     it('should update the props of wrapped Component, when store update', () => {
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(null, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
         fromStore: {
-          storeKey: 'updatedKey'
-        }
+          storeKey: 'updatedKey',
+        },
       });
     });
 
     it('stateProps should be assigned to the props of wrapped Component', () => {
-      const mapStateToProps = (state) => {
-        return {
-          storeKey: state.fromStore.storeKey
-        };
-      };
+      const mapStateToProps = (state) => ({
+        storeKey: state.fromStore.storeKey,
+      });
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(mapStateToProps, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'defaultKey'
+        storeKey: 'defaultKey',
       });
     });
 
     it('when store changes, should update the props of wrapped Component', () => {
-      const mapStateToProps = (state) => {
-        return {
-          storeKey: state.fromStore.storeKey
-        };
-      };
+      const mapStateToProps = (state) => ({
+        storeKey: state.fromStore.storeKey,
+      });
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(mapStateToProps, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
     });
 
     it('when multi updates, if stateProps is not change, will not render again', () => {
-      const mapStateToProps = (state) => {
-        return {
-          storeKey: state.fromStore.storeKey
-        };
-      };
+      const mapStateToProps = (state) => ({
+        storeKey: state.fromStore.storeKey,
+      });
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(mapStateToProps, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(1);
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(2);
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(2);
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
     });
 
     it('when multi updates, but not pure render, if stateProps is not change, will render again', () => {
-      const mapStateToProps = (state) => {
-        return {
-          storeKey: state.fromStore.storeKey
-        };
-      };
+      const mapStateToProps = (state) => ({
+        storeKey: state.fromStore.storeKey,
+      });
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(mapStateToProps, null, null, {
         pure: false,
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(1);
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(2);
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       commonStore.trigger({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
 
       expect(connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(3);
       expect(connectedComponent.getWrappedInstance().props).to.eql({
-        storeKey: 'updatedKey'
+        storeKey: 'updatedKey',
       });
     });
 
@@ -228,18 +220,18 @@ describe('refluxConnect', () => {
       const mapStateToProps = (state, props) => {
         if (props.customProp === 'updatedProp') {
           return {
-            storeKey: props.customProp
+            storeKey: props.customProp,
           };
         }
         return {
-          storeKey: state.fromStore.storeKey
+          storeKey: state.fromStore.storeKey,
         };
       };
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(mapStateToProps, null, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
 
@@ -253,26 +245,28 @@ describe('refluxConnect', () => {
 
         render() {
           return (
-            <ConnectedComponent ref='connectedComponent'
-                                customProp={this.state.customProp}/>
+            <ConnectedComponent
+              ref='connectedComponent'
+              customProp={this.state.customProp}
+            />
           );
         }
       }
 
-      const test = ReactTestUtils.renderIntoDocument(<Test/>);
+      const test = ReactTestUtils.renderIntoDocument(<Test />);
 
       expect(test.refs.connectedComponent.getWrappedInstance().props).to.eql({
         storeKey: 'defaultKey',
-        customProp: 'defaultProp'
+        customProp: 'defaultProp',
       });
 
       test.setState({
-        customProp: 'updatedProp'
+        customProp: 'updatedProp',
       });
 
       expect(test.refs.connectedComponent.getWrappedInstance().props).to.eql({
         storeKey: 'updatedProp',
-        customProp: 'updatedProp'
+        customProp: 'updatedProp',
       });
     });
   });
@@ -281,9 +275,9 @@ describe('refluxConnect', () => {
     let commonStore;
     let commonActions;
 
-    beforeEach(()=> {
+    beforeEach(() => {
       commonActions = {
-        someAction: Reflux.createAction()
+        someAction: Reflux.createAction(),
       };
 
       commonStore = Reflux.createStore({
@@ -293,53 +287,53 @@ describe('refluxConnect', () => {
 
         _onSomeAction() {
           this.trigger({
-            storeKey: 'updatedKey'
+            storeKey: 'updatedKey',
           });
         },
 
         getInitialState() {
           return {
-            storeKey: 'defaultKey'
+            storeKey: 'defaultKey',
           };
-        }
+        },
       });
     });
 
     it('actions should assign to the props of wrapped component', () => {
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(null, {
-        someAction: commonActions.someAction
+        someAction: commonActions.someAction,
       }, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
         fromStore: {
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         },
-        someAction: commonActions.someAction
+        someAction: commonActions.someAction,
       });
     });
 
     it('when actionProps called should trigger reflux flow', (done) => {
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(null, {
-        someAction: commonActions.someAction
+        someAction: commonActions.someAction,
       }, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
         fromStore: {
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         },
-        someAction: commonActions.someAction
+        someAction: commonActions.someAction,
       });
 
       connectedComponent.getWrappedInstance().props.someAction();
@@ -348,9 +342,9 @@ describe('refluxConnect', () => {
       setTimeout(() => {
         expect(connectedComponent.getWrappedInstance().props).to.eql({
           fromStore: {
-            storeKey: 'updatedKey'
+            storeKey: 'updatedKey',
           },
-          someAction: commonActions.someAction
+          someAction: commonActions.someAction,
         });
         done();
       });
@@ -360,18 +354,18 @@ describe('refluxConnect', () => {
       const someMockAction = () => null;
 
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(null, (state, props) => {
         if (props.customProp === 'updatedKey') {
           return {
-            someAction: someMockAction
+            someAction: someMockAction,
           };
         }
         return {
-          someAction: commonActions.someAction
+          someAction: commonActions.someAction,
         };
       }, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
 
@@ -385,62 +379,64 @@ describe('refluxConnect', () => {
 
         render() {
           return (
-            <ConnectedComponent ref='connectedComponent'
-                                customProp={this.state.customProp}/>
+            <ConnectedComponent
+              ref='connectedComponent'
+              customProp={this.state.customProp}
+            />
           );
         }
       }
 
-      const test = ReactTestUtils.renderIntoDocument(<Test/>);
+      const test = ReactTestUtils.renderIntoDocument(<Test />);
       expect(test.refs.connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(1);
 
       test.setState({
-        customProp: 'updatedKey'
+        customProp: 'updatedKey',
       });
 
       expect(test.refs.connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(2);
       expect(test.refs.connectedComponent.getWrappedInstance().props).to.eql({
         customProp: 'updatedKey',
         fromStore: {
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         },
-        someAction: someMockAction
+        someAction: someMockAction,
       });
 
       test.setState({
-        customProp: 'updatedKey'
+        customProp: 'updatedKey',
       });
 
       expect(test.refs.connectedComponent.getWrappedInstance().renderCheck.callCount).to.eql(2);
       expect(test.refs.connectedComponent.getWrappedInstance().props).to.eql({
         customProp: 'updatedKey',
         fromStore: {
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         },
-        someAction: someMockAction
+        someAction: someMockAction,
       });
     });
 
     it('when actionProps called should not trigger reflux flow when disabled', (done) => {
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
+        fromStore: commonStore,
       })(null, (state, props) => {
         if (props.disabled) {
           return {
-            someAction: () => null
+            someAction: () => null,
           };
         }
         return {
-          someAction: commonActions.someAction
+          someAction: commonActions.someAction,
         };
       }, null, {
-        withRef: true
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent disabled/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent disabled />);
 
       expect(connectedComponent.getWrappedInstance().props.fromStore).to.eql({
-        storeKey: 'defaultKey'
+        storeKey: 'defaultKey',
       });
 
       connectedComponent.getWrappedInstance().props.someAction();
@@ -448,7 +444,7 @@ describe('refluxConnect', () => {
       // reflux flow have some delay when state update
       setTimeout(() => {
         expect(connectedComponent.getWrappedInstance().props.fromStore).to.eql({
-          storeKey: 'defaultKey'
+          storeKey: 'defaultKey',
         });
         done();
       });
@@ -458,33 +454,31 @@ describe('refluxConnect', () => {
   context('connect with mergeProps', () => {
     let commonStore;
 
-    beforeEach(()=> {
+    beforeEach(() => {
       commonStore = Reflux.createStore({
         getInitialState() {
           return {
-            storeKey: 'defaultKey'
+            storeKey: 'defaultKey',
           };
-        }
+        },
       });
     });
 
     it('should custom merge rules with mergeProps', () => {
       const ConnectedComponent = refluxConnect({
-        fromStore: commonStore
-      })(null, null, (stateProps, actionsProps, ownProps) => {
-        return {
-          storeKey: stateProps.fromStore.storeKey,
-          someKey: ownProps.someKey ? 'someKey' : ''
-        };
-      }, {
-        withRef: true
+        fromStore: commonStore,
+      })(null, null, (stateProps, actionsProps, ownProps) => ({
+        storeKey: stateProps.fromStore.storeKey,
+        someKey: ownProps.someKey ? 'someKey' : '',
+      }), {
+        withRef: true,
       })(MockedComponent);
 
-      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey/>);
+      const connectedComponent = ReactTestUtils.renderIntoDocument(<ConnectedComponent someKey />);
 
       expect(connectedComponent.getWrappedInstance().props).to.eql({
         storeKey: 'defaultKey',
-        someKey: 'someKey'
+        someKey: 'someKey',
       });
     });
   });

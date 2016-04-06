@@ -13,26 +13,25 @@ describe('refluxConnectMixins', () => {
     const valueStore = Reflux.createStore({
       getInitialState() {
         return 1;
-      }
+      },
     });
 
     const generatedMixins = refluxConnectMixins({
-      value: valueStore
+      value: valueStore,
     });
 
     const Component = React.createClass({
       mixins: generatedMixins,
       render() {
         return null;
-      }
+      },
     });
 
-    const component = ReactTestUtils.renderIntoDocument(<Component/>);
+    const component = ReactTestUtils.renderIntoDocument(<Component />);
 
-    expect(component.state)
-      .to.eql({
-        value: 1
-      });
+    expect(component.state).to.eql({
+      value: 1,
+    });
   });
 
 
@@ -40,39 +39,38 @@ describe('refluxConnectMixins', () => {
     const valueStore = Reflux.createStore({
       getInitialState() {
         return 1;
-      }
+      },
     });
 
     const objectStore = Reflux.createStore({
       getInitialState() {
         return {
           a: 1,
-          b: 2
+          b: 2,
         };
-      }
+      },
     });
 
     const generatedMixins = refluxConnectMixins({
       value: valueStore,
-      object: objectStore
+      object: objectStore,
     });
 
     const Component = React.createClass({
       mixins: generatedMixins,
       render() {
         return null;
-      }
+      },
     });
 
-    const component = ReactTestUtils.renderIntoDocument(<Component/>);
+    const component = ReactTestUtils.renderIntoDocument(<Component />);
 
-    expect(component.state)
-      .to.eql({
-        value: 1,
-        object: {
-          a: 1,
-          b: 2
-        }
-      });
+    expect(component.state).to.eql({
+      value: 1,
+      object: {
+        a: 1,
+        b: 2,
+      },
+    });
   });
 });
