@@ -4,7 +4,7 @@
   "description": "Higher order Components creator for Reflux",
   "main": "lib/refluxConnect.js",
   "engines": {
-    "node": "> 4.0"
+    "node": ">= 4"
   },
   "files": [
     "src/",
@@ -37,9 +37,7 @@
   "dependencies": {
     "babel-runtime": "6.6.1",
     "hoist-non-react-statics": "1.0.x",
-    "invariant": "2.2.x"
-  },
-  "peerDependencies": {
+    "invariant": "2.2.x",
     "react": "*",
     "reflux": "*"
   },
